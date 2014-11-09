@@ -1,0 +1,28 @@
+# ignore local config
+.local_config
+
+# ignore all build dirs
+build-*/
+build/
+
+# ignore all meta sources
+sources/
+
+# ignore download dirs
+downloads/
+
+# ignore repo tool
+repo
+.repo/
+
+# ignore user's local.conf
+conf/*.conf
+
+# ignore tmp dir
+tmp/
+
+# ignore ss-state
+sstate-cache/
+
+# ignore manifest dir
+manifest/
