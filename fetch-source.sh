@@ -38,7 +38,7 @@ REPO_SYNC_FLAGS="${REPO_SYNC_FLAGS:-}"
 repo_sync () {
     rm -rf .repo/manifest* &&
     $REPO init -u $GITREPO -b $BRANCH -m $1.xml &&
-    $REPO sync $repo_sync_flags
+    $REPO sync $REPO_SYNC_FLAGS
     ret=$?
     if [ "$GITREPO" = "$GIT_TEMP_REPO" ]; then
         rm -rf $GIT_TEMP_REPO
@@ -66,13 +66,13 @@ if [ ! -f .local_config ]; then
 #!/bin/sh
 
 # manifest source
-GITREPO=\"${GITREPO}\"
+GITREPO=${GITREPO}
 
 # manifest branch
-BRANCH=\"${BRANCH}\"
+BRANCH="${BRANCH}"
 
 # where to find repo tool
-REPO=\"${REPO}\"
+REPO="${REPO}"
 
 # repo sync flags
 #
@@ -83,7 +83,7 @@ REPO=\"${REPO}\"
 #  -q, --quiet           be more quiet
 #  -j JOBS, --jobs=JOBS  number of projects to fetch simultaneously
 #  -s, --smart-sync      smart sync using manifest from a known good build
-REPO_SYNC_FLAGS=\"\"
+REPO_SYNC_FLAGS=""
 
 EOF
 fi
