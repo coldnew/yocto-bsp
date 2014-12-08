@@ -10,19 +10,21 @@ sources/
 
 # ignore download dirs
 downloads/
+downloads
 
 # ignore repo tool
 repo
 .repo/
 
 # ignore user's local.conf
-conf/*.conf
+conf/local.conf
 
 # ignore tmp dir
 tmp/
 
 # ignore ss-state
 sstate-cache/
+sstate-cache
 
 # ignore manifest dir
 manifest/
