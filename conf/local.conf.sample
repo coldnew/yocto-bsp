@@ -62,7 +62,7 @@ MACHINE ?= "goldfish"
 #
 # The default is a downloads directory under TOPDIR which is the build directory.
 #
-#DL_DIR = "${BSPDIR}/downloads"
+DL_DIR ?= "${BSPDIR}/downloads"
 
 #
 # Where to place shared-state files
@@ -78,7 +78,7 @@ MACHINE ?= "goldfish"
 #
 # The default is a sstate-cache directory under TOPDIR.
 #
-#SSTATE_DIR = "${BSPDIR}/sstate-cache"
+SSTATE_DIR ?= "${BSPDIR}/sstate-cache"
 
 #
 # Where to place the build output
