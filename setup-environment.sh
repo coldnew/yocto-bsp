@@ -4,7 +4,7 @@
 # Copyright (C) 2012, 2013 O.S. Systems Software LTDA.
 # Authored-by:  Otavio Salvador <otavio@ossystems.com.br>
 #
-# Copyright (C) 2014 aosp-hybris project (Hydroid OS)
+# Copyright (C) 2014 aosp-hybris project
 # Authored-by:  Yen-Chin, Lee <coldnew.tw@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify

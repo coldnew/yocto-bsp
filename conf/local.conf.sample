@@ -102,7 +102,7 @@ SSTATE_DIR ?= "${BSPDIR}/sstate-cache"
 #
 #DISTRO = "poky"
 
-DISTRO = "hydroid"
+DISTRO = "aosp-hybris"
 
 #
 # As an example of a subclass there is a "bleeding" edge policy configuration
