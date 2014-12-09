@@ -33,23 +33,13 @@
 # You need to select a specific machine to target the build with. There are a selection
 # of emulated machines available which can boot and run in the QEMU emulator:
 #
-#MACHINE = "qemuarm"
-#MACHINE = "qemumips"
-#MACHINE = "qemuppc"
-#MACHINE = "qemux86"
-#MACHINE = "qemux86-64"
-#
-# There are also the following hardware board target machines included for
-# demonstration purposes:
-#
-#MACHINE = "beaglebone"
-#MACHINE = "genericx86"
-#MACHINE = "genericx86-64"
-#MACHINE = "mpc8315e-rdb"
-#MACHINE ?= "edgerouter"
+#MACHINE ?= "emulator"
+#MACHINE ?= "emulator64"
+#MACHINE ?= "emulator-x86"
+#MACHINE ?= "emulator64-x86"
 
 # Default machine for aosp-hybris project
-MACHINE ?= "goldfish"
+MACHINE ?= "emulator"
 
 #
 # Where to place downloads
