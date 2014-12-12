@@ -199,7 +199,7 @@ For more information about OpenEmbedded see their website:
 You can now run 'bitbake <target>'
 
 Common targets are:
-    core-image-minimal
+    aosp-hybris-minimal
 
 EOF
 
