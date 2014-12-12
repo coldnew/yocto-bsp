@@ -35,7 +35,7 @@ usage()
     echo -e "\nUsage: source $PROGNAME <build-dir>
     <build-dir>: specifies the build directory location (required)
 
-If undefined, this script will set \$MACHINE to 'emulator (armv7ahf)'.
+If undefined, this script will set \$MACHINE to 'goldfisharmv7 (armv7ahf)'.
 "
 
     ls sources/*/conf/machine/*.conf > /dev/null 2>&1
@@ -91,7 +91,7 @@ if [ "$(whoami)" = "root" ]; then
 fi
 
 if [ -z "$MACHINE" ]; then
-    MACHINE='emulator'
+    MACHINE='goldfisharmv7'
 fi
 
 # Check the machine type specified
