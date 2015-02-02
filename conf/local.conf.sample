@@ -90,9 +90,7 @@ SSTATE_DIR ?= "${BSPDIR}/sstate-cache"
 # Ultimately when creating custom policy, people will likely end up subclassing
 # these defaults.
 #
-#DISTRO = "poky"
-
-DISTRO = "aosp-hybris"
+DISTRO = "poky"
 
 #
 # As an example of a subclass there is a "bleeding" edge policy configuration
