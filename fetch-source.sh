@@ -26,7 +26,7 @@ CWD=`pwd`
 ############################################################
 
 # repo tracking branch and source
-GITREPO=${GITREPO:-"https://github.com/aosp-hybris/aosp-hybris-bsp-manifest.git"}
+GITREPO=${GITREPO:-"https://github.com/coldnew/coldnew-raspberrypi-bsp-manifest.git"}
 BRANCH=${BRANCH:-master}
 
 # where to find repo tools

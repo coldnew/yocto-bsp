@@ -91,7 +91,7 @@ if [ "$(whoami)" = "root" ]; then
 fi
 
 if [ -z "$MACHINE" ]; then
-    MACHINE='goldfisharmv7'
+    MACHINE='raspberrypi'
 fi
 
 # Check the machine type specified
