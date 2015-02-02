@@ -38,8 +38,8 @@
 #MACHINE ?= "goldfishx86"
 #MACHINE ?= "goldfishx86-64"
 
-# Default machine for aosp-hybris project
-MACHINE ?= "goldfisharmv7"
+# Default machine for raspberrypi
+MACHINE ?= "raspberrypi"
 
 #
 # Where to place downloads
