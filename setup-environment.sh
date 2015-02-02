@@ -187,7 +187,7 @@ fi
 
 cat <<EOF
 
-Welcome to aosp-hybris BSP
+Welcome to Yocto raspberrypi BSP
 
 The Yocto Project has extensive documentation about OE including a
 reference manual which can be found at:
@@ -199,7 +199,9 @@ For more information about OpenEmbedded see their website:
 You can now run 'bitbake <target>'
 
 Common targets are:
-    aosp-hybris-minimal
+    rpi-basic-image
+    rpi-hwup-image
+    rpi-test-image
 
 EOF
 
