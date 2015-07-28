@@ -26,8 +26,8 @@ CWD=`pwd`
 ############################################################
 
 # repo tracking branch and source
-GITREPO=${GITREPO:-"https://github.com/coldnew/raspberrypi-bsp-manifest.git"}
-BRANCH=${BRANCH:-master}
+GITREPO=${GITREPO:-"https://github.com/coldnew/yocto-bsp-manifest.git"}
+BRANCH=${BRANCH:-fido}
 
 # where to find repo tools
 REPO=${REPO:-./repo}
