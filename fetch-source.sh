@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (C) 2014 Yen-Chine, Lee <coldnew.tw@gmail.com>
+# Copyright (C) 2015 Yen-Chine, Lee <coldnew.tw@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License version 2 as
@@ -27,7 +27,7 @@ CWD=`pwd`
 
 # repo tracking branch and source
 GITREPO=${GITREPO:-"https://github.com/coldnew/yocto-bsp-manifest.git"}
-BRANCH=${BRANCH:-fido}
+BRANCH=${BRANCH:-master}
 
 # where to find repo tools
 REPO=${REPO:-./repo}
