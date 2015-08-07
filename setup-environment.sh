@@ -5,6 +5,7 @@
 # Authored-by:  Otavio Salvador <otavio@ossystems.com.br>
 #
 # Copyright (C) 2014 aosp-hybris project
+# Copyright (C) 2015 coldnew's personal project
 # Authored-by:  Yen-Chin, Lee <coldnew.tw@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -25,169 +26,75 @@
 
 NCPU=`grep -c processor /proc/cpuinfo`
 CWD=`pwd`
+SRCDIR=$CWD/sources
 PROGNAME="setup-environment"
+
+TEMPLATES=$SRCDIR/coldnew-layers/conf
+TEMPLATES_LOCAL=$CWD/conf
 
 # Always force overwrite config
 FORCE_OVERWRITE_CONFIG=1
 
-usage()
-{
-    echo -e "\nUsage: source $PROGNAME <build-dir>
-    <build-dir>: specifies the build directory location (required)
-
-If undefined, this script will set \$MACHINE to 'goldfisharmv7 (armv7ahf)'.
-"
-
-    ls sources/*/conf/machine/*.conf > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo -e "
-Supported machines: `echo; ls sources/*/conf/machine/*.conf \
-| sed s/\.conf//g | sed -r 's/^.+\///' | xargs -I% echo -e "\t%"`
-
-To build for a machine listed above, run this script as:
-MACHINE=<machine> source $PROGNAME <build-dir>
-"
-    fi
-}
-
 clean_up()
 {
-   unset EULA LIST_MACHINES VALID_MACHINE
-   unset NCPU CWD TEMPLATES SHORTOPTS LONGOPTS ARGS PROGNAME
-   unset generated_config updated
-   unset MACHINE SDKMACHINE DISTRO OEROOT
+    unset EULA LIST_MACHINES VALID_MACHINE
+    unset NCPU CWD TEMPLATES SHORTOPTS LONGOPTS ARGS PROGNAME
+    unset generated_config updated
+    unset MACHINE SDKMACHINE DISTRO OEROOT
+    unset CURRENT_GIT_ID MASTER_GIT_ID SRCDIR
+    unset TEMPLATES TEMPLATES_LOCAL TEMPLATES_MACHINE
 }
 
-# get command line options
-SHORTOPTS="h"
-LONGOPTS="help"
+############################################################
+# Local Helper Functions
 
-ARGS=$(getopt --options $SHORTOPTS  \
-  --longoptions $LONGOPTS --name $PROGNAME -- "$@" )
-# Print the usage menu if invalid options are specified
-if [ $? != 0 -o $# -lt 1 ]; then
-   usage && clean_up
-   return 1
-fi
+error() {
+    : << FUNCDOC
+This function is used to simple show error message without exit.
 
-eval set -- "$ARGS"
-while true;
-do
-    case $1 in
-        -h|--help)
-           usage
-           clean_up
-           return 0
-           ;;
-        --)
-           shift
-           break
-           ;;
-    esac
-done
+parameter 1: error message
 
-if [ "$(whoami)" = "root" ]; then
-    echo "ERROR: do not use the BSP as root. Exiting..."
-fi
+FUNCDOC
 
-if [ -z "$MACHINE" ]; then
-    MACHINE='raspberrypi'
-fi
+    echo -e "\n\033[31m\033[1mERROR: $1\033[0m\n"
+}
 
-# Check the machine type specified
-LIST_MACHINES=`ls -1 $CWD/sources/*/conf/machine`
-VALID_MACHINE=`echo -e "$LIST_MACHINES" | grep ${MACHINE}.conf$ | wc -l`
-if [ "x$MACHINE" = "x" ] || [ "$VALID_MACHINE" = "0" ]; then
-    echo -e "\nThe \$MACHINE you have specified ($MACHINE) is not supported by this build setup"
-    usage && clean_up
-    return 1
-else
-    if [ ! -e $1/conf/local.conf.sample ]; then
-        echo "Configuring for ${MACHINE}"
-    fi
-fi
+select_config() {
+    : << FUNCDOC
+List supported machines in source/coldnew-layer/conf
 
-# If user's local.conf not exist, generate it
-if [ ! -e $CWD/conf/local.conf ]; then
+FUNCDOC
 
-        cat >> $CWD/conf/local.conf << EOF
-## User's local conf
-#
-# This file will not be track by git
-
-BB_NUMBER_THREADS = '$NCPU'
-PARALLEL_MAKE = '-j $NCPU'
-
-# CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
-# track the version of this file when it was generated. This can safely be ignored if
-# this doesn't mean anything to you.
-CONF_VERSION = "1"
-
-#MACHINE = "qemuarm"
-#SDKMACHINE = "i686"
-
-# Enable build history to see details of image
-#INHERIT += "buildhistory"
-#BUILDHISTORY_COMMIT = "1"
-
-# Enable prservice to auto incremental PR value
-# see: https://wiki.yoctoproject.org/wiki/PR_Service
-#PRSERV_HOST = "localhost:0"
-
-# Uncomment this to delete work files as the build progresses rather than
-# keeping them around, which saves a lot of disk space. However, if any
-# problems arise it can be useful to have the work files to examine, which
-# is why it is off by default.
-#INHERIT += "rm_work"
-
-EOF
-fi
-
-OEROOT=sources/poky
-if [ -e sources/oe-core ]; then
-    OEROOT=sources/oe-core
-fi
-
-cd $OEROOT
-
-. ./oe-init-build-env $CWD/$1 > /dev/null
-
-# if conf/local.conf not generated, no need to go further
-if [ ! -e conf/local.conf ]; then
-    clean_up && return 1
-fi
-
-# Clean up PATH, because if it includes tokens to current directories somehow,
-# wrong binaries can be used instead of the expected ones during task execution
-export PATH="`echo $PATH | sed 's/\(:.\|:\)*:/:/g;s/^.\?://;s/:.\?$//'`"
-
-generated_config=
-if [ $FORCE_OVERWRITE_CONFIG -eq 1 ]; then
-    mv conf/local.conf conf/local.conf.bk
-
-    # Generate the local.conf based on the Yocto defaults
-    TEMPLATES=$CWD/conf
-    grep -v '^#\|^$' $TEMPLATES/local.conf.sample > conf/local.conf
-
-    # Append user's local.conf
-    grep -v '^#\|^$' $TEMPLATES/local.conf >> conf/local.conf
-
-    # Copy layers config
-    cp $TEMPLATES/bblayers.conf conf/
-
-    for s in $HOME/.oe $HOME/.yocto; do
-        if [ -e $s/site.conf ]; then
-            echo "Linking $s/site.conf to conf/site.conf"
-            ln -s $s/site.conf conf
-        fi
+    options=($(find ${TEMPLATES}/  -type d | awk -F/ '{print $NF}' | awk 'NF > 0'))
+    select opt in "${options[@]}"
+    do
+        case "${options[@]}" in
+            "q" | "quit" )
+                break
+                ;;
+            *$opt*)
+                echo "you chose $opt"
+                MACHINE=$opt
+                break
+                ;;
+            *) echo invalid option;;
+        esac
     done
+}
 
-    generated_config=1
-fi
+show_welcome() {
+    : <<FUNCDOC
+Show welcome message
+FUNCDOC
 
-cat <<EOF
+    if [ -e $TEMPLATES_MACHINE/info.txt ]; then
+        cat $TEMPLATES_MACHINE/info.txt
+    elif [ -e cat $TEMPLATES/info.txt]; then
+        cat $TEMPLATES/info.txt
+    else
+        cat <<EOF
 
-Welcome to Yocto raspberrypi BSP
+Welcome to Yocto BSP
 
 The Yocto Project has extensive documentation about OE including a
 reference manual which can be found at:
@@ -199,10 +106,111 @@ For more information about OpenEmbedded see their website:
 You can now run 'bitbake <target>'
 
 Common targets are:
-    rpi-basic-image
-    rpi-hwup-image
-    rpi-test-image
+	core-image-minimal
 
 EOF
+    fi
+}
 
+
+############################################################
+#### main
+
+# check if already fetch source
+if [ ! -e $CWD/sources ]; then
+    error "please execute ./fetch-source.sh first!!"
+    return
+fi
+
+# Disable root user
+if [ "$(whoami)" = "root" ]; then
+    error "ERROR: do not use the BSP as root. Exiting..."
+    return
+fi
+
+# Setup openembedded root
+OEROOT=sources/poky
+if [ -e sources/oe-core ]; then
+    OEROOT=sources/oe-core
+fi
+
+# Make sure we get argument
+if [ -z "$1" ]; then
+    cat <<EOF
+    USAGE: source setup-environment.sh <build dir>
+EOF
+    return
+fi
+
+# Make user select MACHINE type
+if [ -z "$MACHINE" ]; then
+
+    echo 'Please selct machine: (q to exit)'
+    select_config
+
+    if [ -z "$MACHINE" ]; then
+        error "ERROR: no MACHINE select, exit."
+        return
+    fi
+
+    if [ ! -e $TEMPLATES/$MACHINE/local.conf ]; then
+        error "ERROR: machine $MACHINE does not exist. exit"
+        return
+    fi
+fi
+
+cd $OEROOT
+
+# Use user defines dir
+. ./oe-init-build-env $CWD/$1 > /dev/null
+
+# Clean up PATH, because if it includes tokens to current directories somehow,
+# wrong binaries can be used instead of the expected ones during task execution
+export PATH="`echo $PATH | sed 's/\(:.\|:\)*:/:/g;s/^.\?://;s/:.\?$//'`"
+
+generated_config=
+if [ $FORCE_OVERWRITE_CONFIG -eq 1 ]; then
+    mv conf/local.conf conf/local.conf.bk
+
+    # Generate the local.conf based on the private defaults
+    TEMPLATES_MACHINE=$TEMPLATES/$MACHINE
+    grep -v '^#\|^$' $TEMPLATES/local.conf > conf/local.conf
+    grep -v '^#\|^$' $TEMPLATES_MACHINE/local.conf >> conf/local.conf
+
+    # Copy layers config
+    # If machine specific bblayers.conf exist, use it else use generic conf
+    if [ -e $TEMPLATES_MACHINE/bblayers.conf ]; then
+        cp $TEMPLATES_MACHINE/bblayers.conf conf/
+    else
+        cp $TEMPLATES/bblayers.conf conf/
+    fi
+
+    # Appedn user defined local.conf if exist
+    if [ -e $TEMPLATES_LOCAL/local.conf ]; then
+        grep -v '^#\|^$' $TEMPLATES_LOCAL/local.conf >> conf/local.conf
+    fi
+
+    if [ -e $TEMPLATES_LOCAL/$MACHINE.conf ]; then
+        grep -v '^#\|^$' $TEMPLATES_LOCAL/$MACHINE.conf >> conf/local.conf
+    fi
+
+    # Append user defined bblayers if exist
+    if [ -e $TEMPLATES_LOCAL/$MACHINE.bblayers.conf ]; then
+        cat $TEMPLATES_LOCAL/$MACHINE.bblayers.conf >> conf/bblayers.conf
+    fi
+
+    for s in $HOME/.oe $HOME/.yocto; do
+        if [ -e $s/site.conf ]; then
+            echo "Linking $s/site.conf to conf/site.conf"
+            ln -s $s/site.conf conf
+        fi
+    done
+
+    generated_config=1
+fi
+
+# show welcome message
+show_welcome
+
+# Unset All tmp variables
 clean_up
