@@ -128,12 +128,6 @@ if [ "$(whoami)" = "root" ]; then
     return
 fi
 
-# Setup openembedded root
-OEROOT=sources/poky
-if [ -e sources/oe-core ]; then
-    OEROOT=sources/oe-core
-fi
-
 # Make sure we get argument
 if [ -z "$1" ]; then
     cat <<EOF
@@ -159,6 +153,17 @@ if [ -z "$MACHINE" ]; then
     fi
 fi
 
+# Setup openembedded root
+OEROOT=sources/poky
+if [[ "$MACHINE" == *"riscv"* ]]; then
+    echo "RISC-V architecture, use risc-poky instead."
+    OEROOT=sources/riscv-poky
+fi
+
+if [ -e sources/oe-core ]; then
+    OEROOT=sources/oe-core
+fi
+
 cd $OEROOT
 
 # Use user defines dir
@@ -169,7 +174,7 @@ cd $OEROOT
 export PATH="`echo $PATH | sed 's/\(:.\|:\)*:/:/g;s/^.\?://;s/:.\?$//'`"
 
 generated_config=
-if [ $FORCE_OVERWRITE_CONFIG -eq 1 ]; then
+if [[ $FORCE_OVERWRITE_CONFIG -eq 1 ]]; then
     mv conf/local.conf conf/local.conf.bk
 
     # Generate the local.conf based on the private defaults
