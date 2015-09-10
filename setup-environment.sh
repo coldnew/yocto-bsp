@@ -136,6 +136,15 @@ EOF
     return
 fi
 
+# If dirname "$1" is the same as machine name, setup MACHINE variable
+MACHINES=$(cd $TEMPLATES && find . -type d)
+for i in ${MACHINES}; do
+    if [[ "${1/\//}" == "${i/.\//}" ]]; then
+        MACHINE="${i/.\//}"
+        echo "Use match machine name: ${MACHINE}"
+    fi
+done
+
 # Make user select MACHINE type
 if [ -z "$MACHINE" ]; then
 
