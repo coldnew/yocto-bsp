@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # -*- mode: shell-script; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*-
 #
 # Copyright (C) 2012, 2013 O.S. Systems Software LTDA.
@@ -89,7 +89,7 @@ FUNCDOC
 
     if [ -e $TEMPLATES_MACHINE/info.txt ]; then
         cat $TEMPLATES_MACHINE/info.txt
-    elif [ -e cat $TEMPLATES/info.txt]; then
+    elif [ -e $TEMPLATES/info.txt ]; then
         cat $TEMPLATES/info.txt
     else
         cat <<EOF
@@ -163,14 +163,14 @@ if [ -z "$MACHINE" ]; then
 fi
 
 # Setup openembedded root
-OEROOT=sources/poky
+OEROOT=$SRCDIR/poky
 if [[ "$MACHINE" == *"riscv"* ]]; then
     echo "RISC-V architecture, use risc-poky instead."
-    OEROOT=sources/riscv-poky
+    OEROOT=$SRCDIR/riscv-poky
 fi
 
-if [ -e sources/oe-core ]; then
-    OEROOT=sources/oe-core
+if [[ -e $SRCDIR/oe-core ]]; then
+    OEROOT=$SRCDIR/oe-core
 fi
 
 cd $OEROOT
@@ -193,28 +193,28 @@ if [[ $FORCE_OVERWRITE_CONFIG -eq 1 ]]; then
 
     # Copy layers config
     # If machine specific bblayers.conf exist, use it else use generic conf
-    if [ -e $TEMPLATES_MACHINE/bblayers.conf ]; then
+    if [[ -e $TEMPLATES_MACHINE/bblayers.conf ]]; then
         cp $TEMPLATES_MACHINE/bblayers.conf conf/
     else
         cp $TEMPLATES/bblayers.conf conf/
     fi
 
     # Appedn user defined local.conf if exist
-    if [ -e $TEMPLATES_LOCAL/local.conf ]; then
+    if [[ -e $TEMPLATES_LOCAL/local.conf ]]; then
         grep -v '^#\|^$' $TEMPLATES_LOCAL/local.conf >> conf/local.conf
     fi
 
-    if [ -e $TEMPLATES_LOCAL/$MACHINE.conf ]; then
+    if [[ -e $TEMPLATES_LOCAL/$MACHINE.conf ]]; then
         grep -v '^#\|^$' $TEMPLATES_LOCAL/$MACHINE.conf >> conf/local.conf
     fi
 
     # Append user defined bblayers if exist
-    if [ -e $TEMPLATES_LOCAL/$MACHINE.bblayers.conf ]; then
+    if [[ -e $TEMPLATES_LOCAL/$MACHINE.bblayers.conf ]]; then
         cat $TEMPLATES_LOCAL/$MACHINE.bblayers.conf >> conf/bblayers.conf
     fi
 
     for s in $HOME/.oe $HOME/.yocto; do
-        if [ -e $s/site.conf ]; then
+        if [[ -e $s/site.conf ]]; then
             echo "Linking $s/site.conf to conf/site.conf"
             ln -s $s/site.conf conf
         fi
