@@ -53,7 +53,7 @@ repo_sync () {
 # get the newliest repo command if it does not exist
 if [ ! -f repo ]; then
     echo "repo command not fount, download it"
-    curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > repo
+    curl https://storage.googleapis.com/git-repo-downloads/repo  > repo
     chmod +x repo
 fi
 
