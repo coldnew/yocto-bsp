@@ -18,6 +18,11 @@
   <!-- raspberrypi -->
   <project remote="yocto" name="meta-raspberrypi" path="sources/meta-raspberrypi"/>
 
+  <!-- Freescale -->
+  <project remote="github" name="Freescale/meta-freescale" path="sources/meta-freescale"/>
+  <project remote="github" name="Freescale/meta-freescale-distro" path="sources/meta-freescale-distro"/>
+  <project remote="github" name="Freescale/meta-freescale-3rdparty" path="sources/meta-freescale-3rdparty"/>
+
   <!-- Qt5 -->
   <project remote="github" name="meta-qt5/meta-qt5" path="sources/meta-qt5"/>
 
