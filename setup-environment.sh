@@ -5,7 +5,7 @@
 # Authored-by:  Otavio Salvador <otavio@ossystems.com.br>
 #
 # Copyright (C) 2014 aosp-hybris project
-# Copyright (C) 2015 coldnew's personal project
+# Copyright (C) 2015 - 2019 coldnew's personal project
 # Authored-by:  Yen-Chin, Lee <coldnew.tw@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -29,8 +29,7 @@ CWD=`pwd`
 SRCDIR=$CWD/sources
 PROGNAME="setup-environment"
 
-TEMPLATES=$SRCDIR/coldnew-layers/conf
-TEMPLATES_LOCAL=$CWD/conf
+TEMPLATES=$CWD/conf
 
 # Always force overwrite config
 FORCE_OVERWRITE_CONFIG=1
@@ -42,7 +41,7 @@ clean_up()
     unset generated_config updated
     unset MACHINE SDKMACHINE DISTRO OEROOT
     unset CURRENT_GIT_ID MASTER_GIT_ID SRCDIR
-    unset TEMPLATES TEMPLATES_LOCAL TEMPLATES_MACHINE
+    unset TEMPLATES TEMPLATES_MACHINE
 }
 
 ############################################################
@@ -200,17 +199,17 @@ if [[ $FORCE_OVERWRITE_CONFIG -eq 1 ]]; then
     fi
 
     # Appedn user defined local.conf if exist
-    if [[ -e $TEMPLATES_LOCAL/local.conf ]]; then
-        grep -v '^#\|^$' $TEMPLATES_LOCAL/local.conf >> conf/local.conf
+    if [[ -e $TEMPLATES/local.conf ]]; then
+        grep -v '^#\|^$' $TEMPLATES/local.conf >> conf/local.conf
     fi
 
-    if [[ -e $TEMPLATES_LOCAL/$MACHINE.conf ]]; then
-        grep -v '^#\|^$' $TEMPLATES_LOCAL/$MACHINE.conf >> conf/local.conf
+    if [[ -e $TEMPLATES/$MACHINE.conf ]]; then
+        grep -v '^#\|^$' $TEMPLATES/$MACHINE.conf >> conf/local.conf
     fi
 
     # Append user defined bblayers if exist
-    if [[ -e $TEMPLATES_LOCAL/$MACHINE.bblayers.conf ]]; then
-        cat $TEMPLATES_LOCAL/$MACHINE.bblayers.conf >> conf/bblayers.conf
+    if [[ -e $TEMPLATES/$MACHINE.bblayers.conf ]]; then
+        cat $TEMPLATES/$MACHINE.bblayers.conf >> conf/bblayers.conf
     fi
 
     for s in $HOME/.oe $HOME/.yocto; do
