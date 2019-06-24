@@ -27,3 +27,4 @@ manifest/
 # machines dir
 /raspberrypi3/
 /qemux86/
+/qemux86-64/
