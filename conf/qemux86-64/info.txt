@@ -11,5 +11,5 @@ You can now run 'bitbake <target>'
 
 Common targets are:
 
-    core-image-minimal     -- Minimal command line image
-    core-image-weston      -- Wayland image with weston compositor
+    core-image-minimal     # Minimal command line image
+    core-image-weston      # Wayland image with weston compositor

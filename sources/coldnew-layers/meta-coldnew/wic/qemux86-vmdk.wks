@@ -1,0 +1,11 @@
+# short-description: Create a qemu machine 'pcbios' direct disk image
+# long-description: Creates a partitioned legacy BIOS disk image that the user
+# can directly use to boot a qemu machine.
+
+# This file is included into 3 canned wks files from this directory
+part /boot --source bootimg-pcbios --ondisk vda --label boot --active --align 1024
+part / --source rootfs --use-uuid --fstype=ext4 --label platform --align 1024
+
+#bootloader  --timeout=0  --append="oprofile.timer=1 rootfstype=ext4 net.ifnames=0 biosdevname=0 root=/dev/vda2 rw"
+
+bootloader  --timeout=0  --append="root=/dev/vda2 rw  console=ttyS0 net.ifnames=0 biosdevname=0"
