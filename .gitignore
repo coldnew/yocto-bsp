@@ -25,6 +25,8 @@ sstate-cache
 manifest/
 
 # machines dir
+/BUILD/
 /raspberrypi3/
 /qemux86/
 /qemux86-64/
+/qemuriscv64/

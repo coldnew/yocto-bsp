@@ -163,10 +163,10 @@ fi
 
 # Setup openembedded root
 OEROOT=$SRCDIR/poky
-if [[ "$MACHINE" == *"riscv"* ]]; then
-    echo "RISC-V architecture, use risc-poky instead."
-    OEROOT=$SRCDIR/riscv-poky
-fi
+#if [[ "$MACHINE" == *"riscv"* ]]; then
+#    echo "RISC-V architecture, use risc-poky instead."
+#    OEROOT=$SRCDIR/riscv-poky
+#fi
 
 if [[ -e $SRCDIR/oe-core ]]; then
     OEROOT=$SRCDIR/oe-core
