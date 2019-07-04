@@ -1,7 +1,10 @@
+<img src="https://raw.githubusercontent.com/coldnew/coldnew.github.io/hexo/source/avatars/yocto.png"
+     align="right"/>
+
+
+
 coldnew's Yocto Project BSP
 -----------------------------
-
-## About
 
 My personal's yocto project bsp.
 
