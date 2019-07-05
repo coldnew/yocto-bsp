@@ -13,3 +13,6 @@
 [submodule "sources/meta-freescale"]
 	path = sources/meta-freescale
 	url = https://github.com/Freescale/meta-freescale.git
+[submodule "sources/meta-xilinx"]
+	path = sources/meta-xilinx
+	url = https://github.com/Xilinx/meta-xilinx.git
