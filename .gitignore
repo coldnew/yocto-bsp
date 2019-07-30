@@ -31,3 +31,4 @@ manifest/
 /qemux86-64/
 /qemuriscv64/
 /qemuarm/
+/qemuarm64/
