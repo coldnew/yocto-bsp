@@ -1,0 +1,8 @@
+# ignore dirs may changed
+/cache/
+/tmp/
+
+# ignore fils may changed
+*.log
+*.lock
+/conf/sanity_info

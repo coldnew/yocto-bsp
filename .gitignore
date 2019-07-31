@@ -1,6 +1,3 @@
-# ignore all build dirs
-build-*/
-build/
 
 # ignore download dirs
 downloads/
