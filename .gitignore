@@ -24,6 +24,9 @@ sstate-cache
 # ignore manifest dir
 manifest/
 
+# ignore my private layers
+/sources/private/*
+
 # machines dir
 /BUILD/
 /raspberrypi3/
@@ -32,3 +35,6 @@ manifest/
 /qemuriscv64/
 /qemuarm/
 /qemuarm64/
+
+# private dir
+/private/
