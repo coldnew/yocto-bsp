@@ -16,3 +16,6 @@
 [submodule "sources/meta-xilinx"]
 	path = sources/meta-xilinx
 	url = https://github.com/Xilinx/meta-xilinx.git
+[submodule "sources/meta-gplv2"]
+	path = sources/meta-gplv2
+	url = git://git.yoctoproject.org/meta-gplv2
