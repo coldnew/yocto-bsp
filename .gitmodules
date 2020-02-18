@@ -7,9 +7,6 @@
 [submodule "sources/meta-raspberrypi"]
 	path = sources/meta-raspberrypi
 	url = git://git.yoctoproject.org/meta-raspberrypi
-[submodule "sources/meta-qt5.6"]
-	path = sources/meta-qt5.6
-	url = https://github.com/coldnew/meta-qt5.6.git
 [submodule "sources/meta-freescale"]
 	path = sources/meta-freescale
 	url = https://github.com/Freescale/meta-freescale.git
@@ -19,3 +16,6 @@
 [submodule "sources/meta-gplv2"]
 	path = sources/meta-gplv2
 	url = git://git.yoctoproject.org/meta-gplv2
+[submodule "sources/meta-qt5.6"]
+	path = sources/meta-qt5.6
+	url = https://github.com/coldnew/meta-qt5.6.git

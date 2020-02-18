@@ -8,9 +8,9 @@ My personal's yocto project bsp.
 
 ## Repo I Used
 
-This project will track on `warrior (2.7)` branch of yocto.
+This project will track on `zeus (3.0)` branch of yocto.
 
-Since `warrior` branch is not released yet, we track on master branch.
+Since `zeus` branch is not released yet, we track on master branch.
 
 - poky              : git://git.yoctoproject.org/poky
 - meta-openembedded : git://git.openembedded.org/meta-openembedded
