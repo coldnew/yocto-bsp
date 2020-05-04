@@ -8,9 +8,7 @@ My personal's yocto project bsp.
 
 ## Repo I Used
 
-This project will track on `zeus (3.0)` branch of yocto.
-
-Since `zeus` branch is not released yet, we track on master branch.
+This project will track on `dunfell (3.1 LTS)` branch of yocto.
 
 - poky              : git://git.yoctoproject.org/poky
 - meta-openembedded : git://git.openembedded.org/meta-openembedded

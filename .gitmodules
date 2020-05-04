@@ -19,3 +19,9 @@
 [submodule "sources/meta-qt5.6"]
 	path = sources/meta-qt5.6
 	url = https://github.com/coldnew/meta-qt5.6.git
+[submodule "sources/meta-clang"]
+	path = sources/meta-clang
+	url = https://github.com/kraj/meta-clang.git
+[submodule "sources/meta-browser"]
+	path = sources/meta-browser
+	url = https://github.com/OSSystems/meta-browser.git
